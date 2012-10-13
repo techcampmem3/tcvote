@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css"
+    href="/static/css/bootstrap.css"/>
+    <style type="text/css">
+      div#practitioner div.headers, div#intro div.headers {
+        font-weight: bold;
+      }
+      div.session-selected {
+        background-color: #ccffcc;
+      }
+      div#alerts, div#intro {
+        display: none;
+      }
+      div.session-time {
+        text-align: right;
+      }
+      div.headers div {
+        text-align: left;
+      }
+    </style
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">&nbsp;</div>
+      <div id="message">
+        <img src="/static/img/banner.jpg"/>
+      </div>
+      <div class="row">&nbsp;</div>
+      <ul class="nav nav-tabs">
+        <li class="active" data-track="practitioner"><a href="#">Practictioner</a></li>
+        <li data-track="intro"><a href="#">Intro / 101</a></li>
+      </ul>
+      <div id="alerts">
+        <div class="alert alert-info">
+          Thanks for voting!  We look forward to seeing you on November 3!
+        </div>
+      </div>
+      <div id="intro">
+        Which Intro / 101 session are you planning to attend?<br/>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+          <div class="span4 session img-rounded"><a href="#">Introduction to Online Marketing & Content Creation</a><i class="" data-sessionid="intro1"></i></div>
+          <div class="span4 session img-rounded"><a href="#">So, You Want to be a Developer?</a><i class="" data-sessionid="intro2"></i></div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+          <div class="span12">
+            <button id="submitBtnIntro" class="btn">Submit</button>
+            <button id="resetBtnIntro" class="btn">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div id="practitioner">
+        <div class="row headers">
+          <div class="span2 session">Session Time</div>
+          <div class="span1">&nbsp</div>
+          <div class="span3 session">Content Track</div>
+          <div class="span3 session">Developer Track</div>
+          <div class="span3 session">Marketing Track</div>
+        </div>
+        <div class="row session-row">
+          <div class="span2 session session-time">9:00 AM - 9:45 AM</div>
+          <div class="span1">&nbsp</div>
+          <div class="span3 session img-rounded"><a href="#">Content Contributors: The Good, The Bad and The Ugly</a><i class="" data-sessionid="content1"></i></div>
+          <div class="span3 session img-rounded"><a href="#">Backend Server Programming With Ruby on Rails</a><i class="" data-sessionid="developer1"></i></div>
+          <div class="span3 session img-rounded"><a href="#">Why & How to Blog for your Business</a><i class="" data-sessionid="marketing1"></i></div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row session-row">
+          <div class="span2 session session-time">10:00 AM - 10:45 AM</div>
+          <div class="span1">&nbsp</div>
+          <div class="span3 session img-rounded"><a href="#">Web Analytics 101</a><i class="" data-sessionid="content2"></i></div>
+          <div class="span3 session img-rounded"><a href="#">Keeping it Small: Slim PHP Microframework</a><i class="" data-sessionid="developer2"></i></div>
+          <div class="span3 session img-rounded"><a href="#">Introduction to Google+</a><i class="" data-sessionid="marketing2"></i></div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row session-row">
+          <div class="span2 session session-time">11:00 AM - 11:45 AM</div>
+          <div class="span1">&nbsp</div>
+          <div class="span3 session img-rounded"><a href="#">Getting up to Speed with WordPress</a><i class="" data-sessionid="content3"></i></div>
+          <div class="span3 session img-rounded"><a href="#">Django: A Whirlwind Tour</a><i class="" data-sessionid="developer3"></i></div>
+          <div class="span3 session img-rounded"><a href="#">Display Ads & Analytics</a><i class="" data-sessionid="marketing3"></i></div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row session-row">
+          <div class="span2 session session-time">1:00 PM - 1:45 PM</div>
+          <div class="span1">&nbsp</div>
+          <div class="span3 session img-rounded"><a href="#">Meaningful Conclusions</a><i class="" data-sessionid="content4"></i></div>
+          <div class="span3 session img-rounded"><a href="#">Corona SDK: Mobile Game Development Made Easier</a><i class="" data-sessionid="developer4"></i></div>
+          <div class="span3 session img-rounded"><a href="#">How to Grow Your Business With Email Marketing</a><i class="" data-sessionid="marketing4"></i></div>
+        </div>
+        <div class="row">
+          <div class="span12">
+            <button id="submitBtn" class="btn">Submit</button>
+            <button id="resetBtn" class="btn">Reset</button>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </body>
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script>
+    $(function() {
+      // any session title that is clicked on
+      $("div.session a").click(function(){
+        var currentlySelectedId;
+        var clickedId = $(this).parent().find("i").data("sessionid");
+        // get the div.session-row it lives in
+        var sessionRow = $(this).parent().parent();
+        // find all the div.session elements
+        var icons = $(sessionRow).find("div.session");
+        // and remove the session-selected class
+        // so that only one div.session in each div.session-row
+        // can be selected
+        icons.each(function() {
+          if ($(this).hasClass("session-selected")) {
+            currentlySelectedId = $(this).find("i").data("sessionid");
+            $(this).removeClass("session-selected");
+          }
+        });
+        // we have not clicked on the currently selected session so select it
+        if (currentlySelectedId != clickedId) {
+          // select the div.session that was clicked
+          $(this).parent().addClass("session-selected");
+        }
+      });
+
+      // when the submit buttons are clicked
+      $("#submitBtn, #submitBtnIntro").click(function(){
+        // was it the pracitioner or 101 track?
+        var activeTab = $("ul.nav li.active").data("track");
+        var contentDiv = null;
+        // choose the correct content
+        if (activeTab == "practitioner") {
+          contentDiv = $("div#practitioner");
+        } else {
+          contentDiv = $("div#intro");
+        }
+        // get all of the selected sessions
+        var oks = $(contentDiv).find("div.session-selected");
+        var sessions = [];
+        // put all of the session ids in an array
+        $(oks).each(function(){
+          sessions.push($(this).find("i").data("sessionid"));
+        });
+        // turn the sessions array into JSON and POST it to the
+        // /vote endpoint
+        var request = $.ajax({
+          url: "/vote",
+          type: "POST",
+          data: {
+            sessions: JSON.stringify(sessions)
+          },
+          dataType: "json"
+        });
+
+        // hide all of the content
+        $("div#practitioner").css("display", "none");
+        $("div#intro").css("display", "none");
+        $("ul.nav").css("display", "none");
+        //$("#message").css("display", "none");
+
+        // show the thank you message
+        $("div#alerts").css("display", "block");
+      });
+
+      // after clicking on a tab
+      $("ul.nav li").click(function() {
+        // get the track for that tab
+        var selectedTrack = $(this).data("track");
+
+        // switch the active tab if we need to
+        if (!($(this).hasClass("active"))) {
+          $("ul.nav li.active").removeClass("active");
+          $($(this).addClass("active"))
+        }
+
+        // show the proper content for the active tab
+        // (this is messy but with only two tabs ..)
+        switch (selectedTrack) {
+          case "practitioner":
+            $("#practitioner").css("display", "block");
+            $("#intro").css("display", "none");
+            break;
+          case "intro":
+            $("#intro").css("display", "block");
+            $("#practitioner").css("display", "none");
+            break;
+        }
+      });
+
+      // reset buttons
+      $("#resetBtn, #resetBtnIntro").click(function(){
+        $("div.session-selected").removeClass("session-selected");
+      });
+    })
+  </script>
+</html>
